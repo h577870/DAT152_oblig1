@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="ISO-8859-1">
-<title>Task manager</title>
-<script src="../js/lol.js" defer></script>
+	<meta charset="ISO-8859-1">
+	<title>Task manager</title>
+	<script type="module" src="../js/GuiHandler.js" defer></script>
 </head>
+
 <body>
-	<h1>Task manager</h1>
-	<button id="newTask" disabled="disabled">New task</button>
-	<div class="taskList"></div>
+	<div class="taskcontainer">
+		<h1>Task manager</h1>
+		<button id="newTask" disabled="disabled">New task</button>
+		<div class="tasklist">
+			<table>
+				<tr>
+					<th>Task</th>
+					<th>Status</th>
+					<th>Select</th>
+					<th>Remove</th>
+				</tr>
+			</table>
+		</div>
+	</div>
 </body>
+
 </html>
-
-
-
