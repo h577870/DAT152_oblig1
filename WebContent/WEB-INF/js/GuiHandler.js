@@ -6,22 +6,23 @@ class GuiHandler {
 	*Properties 'allStatuses', 'deleteTaskCallback' og 'newStatusCallback'
 	*/
 	
-	constructor() {
+	constructor(element) {
 		TODO
 	}
 	
 	//Prefix '_' i funksjonsnavn er for å markere at funksjonene er private.
 
-	_showTask = (task) => {
+	_showTask(task) {
+		
 		TODO
 	}
-	_update = (task) => {
+	_update(task) {
 		TODO
 	}
-	_removeTask = (id) => {
+	_removeTask(id) {
 		TODO
 	}
-	_noTask = () => {
+	_noTask() {
 		TODO
 	}
 	
