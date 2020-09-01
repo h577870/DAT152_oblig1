@@ -10,19 +10,10 @@ export class Task {
 		this._status = status
 	}
 
-	get taskId() { return this.getTaskId }
-	get taskTitle() { return this.getTaskTitle }
-	get taskStatus() { return this.getTaskStatus }
+	get taskId() { return this._id }
+	get taskTitle() { return this._title }
+	get taskStatus() { return this._status }
 
-	//Eclipse sutrer her...
-	/**
-     * @param {any} new_title
-     */
-	set taskTitle(new_title) { this.setTaskTitle(new_title) }
-
-	//Her også...
-	/**
-     * @param {any} new_status
-     */
-	set taskStatus(new_status) { this.setTaskStatus(new_status) }
+	set taskTitle(title) { this._title = title }
+	set taskStatus(status) { this._status = status }
 }
