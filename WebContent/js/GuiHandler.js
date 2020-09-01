@@ -1,12 +1,12 @@
 "use strict"
 
-import { Task } from './Task.js'
-
+//Spørre om dette er ok?
 const taskContainer = document.getElementsByClassName('taskcontainer')[0]
 const tbl = taskContainer.getElementsByTagName('table')[0]
 
 export class GuiHandler {
 
+	//Usikker på konstruktør
 	constructor() {
 		this._allstatuses = []
 	}
