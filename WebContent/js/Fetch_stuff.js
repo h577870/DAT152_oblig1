@@ -8,6 +8,7 @@ export async function showTasks(func) {
         const response = await fetch(url, { method: 'GET' })
         try {
             const data = await response.json()
+            console.log(data)
             for (let task in data.tasks) {
                 let task_1 = new Task(task.id, task.title, task.status) //undefined?
                 console.log(task_1)

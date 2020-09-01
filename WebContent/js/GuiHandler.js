@@ -6,23 +6,26 @@ const tbl = taskContainer.getElementsByTagName('table')[0]
 
 export class GuiHandler {
 
-	//Usikker på konstruktør
+	/*
+	* Properties 'allStatuses', 'deleteTaskCallback' og 'newStatusCallback'
+   	* Konstruktør må ha 'container'.
+	*/
 	constructor() {
 		this._allstatuses = []
 	}
-
-	/*
-	*Properties 'allStatuses', 'deleteTaskCallback' og 'newStatusCallback'
-	*/
-
-	//Prefix '_' i funksjonsnavn er for å markere at funksjonene er private.
 
 	_showTask(task) {
 
 		const selector = document.createElement('select')
 		const option_w = document.createElement('option')
+		const option_e = document.createElement('option')
+		const option_q = document.createElement('option')
+		option_e.text = "bye"
+		option_q.text = "nei"
 		option_w.text = "hello"
 		selector.add(option_w)
+		selector.add(option_e)
+		selector.add(option_q)
 		const button = document.createElement('button')
 		button.textContent = "REMOVE"
 
@@ -39,22 +42,33 @@ export class GuiHandler {
 		td4.appendChild(button)
 
 		button.addEventListener('click', async () => {
-			this._removeTask(row.dataset.row_id)
-			console.log(row.dataset.row_id)
+			let confirmation = window.confirm("Er du sikker på at du vil fjerne denne?")
+			if (confirmation) {
+				this._removeTask(row.dataset.row_id)
+				console.log(`Task with id ${row.dataset.row_id} was removed from the task table.`)
+			}
+			else {
+				console.log(`Task with id ${row.dataset.row_id} was not removed.`)
+			}
 		})
 
-
+		selector.addEventListener('change', async () => {
+			let selectorOption = selector.options[selector.selectedIndex].text
+			this._update(row.dataset.row_id, selectorOption)
+		})
 	}
-	_update(task) {
-		//TODO
+	_update(task, text) {
+		let status = document.querySelector(`[data - row_id="${task}"]`)
+		status.children[1].textContent = text
 	}
 	_removeTask(id) {
 		let child = document.querySelector(`[data-row_id="${id}"]`)
 		child.remove()
-		console.log(`Task with id ${id} was removed from the task table.`)
 	}
 	_noTask() {
-		//TODO
+		const task_length = tbl.querySelectorAll('tr').length
+		return task_length === 0
 	}
+	_deleteTaskCallback(response) { }
 
 }

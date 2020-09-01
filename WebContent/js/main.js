@@ -2,6 +2,7 @@
 
 import { GuiHandler } from './GuiHandler.js'
 import { Task } from './Task.js'
+import { showTasks } from './Fetch_stuff.js'
 
 const statuses = [
     'ACTIVE',
@@ -12,14 +13,6 @@ const statuses = [
 const gui = new GuiHandler()
 gui._allstatuses = statuses
 
-const task_list = [
-    new Task(1, "Hello", 'ACTIVE'),
-    new Task(2, 'Hade', 'WAITING'),
-    new Task(3, 'Had', 'WAITING'),
-    new Task(4, 'ade', 'WAITING'),
-    new Task(5, 'Hde', 'WAITING')
-]
+showTasks(gui._showTask)
 
-task_list.forEach(task => {
-    gui._showTask(task)
-})
+console.info(`Task list is empty: ${gui._noTask()}`)
