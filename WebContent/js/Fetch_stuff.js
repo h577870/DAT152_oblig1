@@ -8,12 +8,13 @@ export async function showTasks(func) {
         const response = await fetch(url, { method: 'GET' })
         try {
             const data = await response.json()
-            console.log(data)
-            for (let task in data.tasks) {
-                let task_1 = new Task(task.id, task.title, task.status) //undefined?
-                console.log(task_1)
-                func(task_1)
-            }
+            data.tasks.forEach( task => {
+				//javascript vet ikke før kjøretid at dette <KAN> være ett array, men det virker så lenge man vet selv
+				//litt rart å passe funksjon som parameter, men ok =D
+				const newTask = new Task(task.id, task.title, task.status)
+				func(newTask)
+			})
+            
         } catch (e) { console.log(e.message) }
     } catch (e) {
         console.log(e.message)
