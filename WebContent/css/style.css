@@ -22,7 +22,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 50%;
 }
 
 /* The Close Button */
@@ -35,7 +35,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 .close:hover,
 .close:focus {
-  color: #000;
+  color: rgb(0, 0, 0);
   text-decoration: none;
   cursor: pointer;
 }
