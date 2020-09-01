@@ -34,12 +34,28 @@ window.addEventListener('click', async(event) => {
     }
 })
 
-//Legge til task i tabellen (ikke ferdig)
-const gui = new GuiHandler()
+title.addEventListener("change", (e) => {
+    FormTask.title = e.target.value
 
-const task = new Task(6, title.value, status.value)
-submit.addEventListener('click', async() => {
-    gui._showTask(task)
 })
 
+status.addEventListener("change", (e) => {
+    FormTask.status = e.target.value
+})
+
+//Legge til task i tabellen (ikke ferdig)
+
+let FormTask = {
+    title: "",
+    status: "",
+}
+
+const gui = new GuiHandler()
+
+
+submit.addEventListener('click', async(e) => {
+    e.preventDefault()
+    const task = new Task(6, FormTask.title, FormTask.status.toLocaleUpperCase())
+    gui._showTask(task)
+})
 
