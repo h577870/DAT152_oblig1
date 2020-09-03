@@ -47,7 +47,7 @@ status.addEventListener("change", (e) => {
 
 let FormTask = {
     title: "",
-    status: "",
+    status: status.value || ""
 }
 
 const gui = new GuiHandler()
