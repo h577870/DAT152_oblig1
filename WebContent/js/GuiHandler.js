@@ -58,7 +58,7 @@ export class GuiHandler {
 		})
 	}
 	_update(task, text) {
-		let status = document.querySelector(`[data - row_id="${task}"]`)
+		let status = document.querySelector(`[data-row_id="${task}"]`)
 		status.children[1].textContent = text
 	}
 	_removeTask(id) {
