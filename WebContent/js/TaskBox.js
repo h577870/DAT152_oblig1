@@ -47,7 +47,7 @@ status.addEventListener("change", (e) => {
 
 let FormTask = {
     title: "",
-    status: "",
+    status: status.value || ""
 }
 
 const gui = new GuiHandler()
@@ -59,3 +59,4 @@ submit.addEventListener('click', async(e) => {
     gui._showTask(task)
 })
 
+// Hei hilsen Chris
