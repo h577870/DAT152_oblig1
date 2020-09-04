@@ -1,21 +1,17 @@
 "use strict"
 
-//Spørre om dette er ok?
-const taskContainer = document.getElementsByClassName('taskcontainer')[0]
-const tbl = taskContainer.getElementsByTagName('table')[0]
-
 export class GuiHandler {
 
 	/*
 	* Properties 'allStatuses', 'deleteTaskCallback' og 'newStatusCallback'
-   	* Konstruktør må ha 'container'.
 	*/
-	constructor() {
+	constructor(container) {
 		this._allstatuses = []
+		this._container = container
 	}
 
 	_showTask(task) {
-
+		const tbl = this._container.getElementsByTagName('table')[0]
 		const selector = document.createElement('select')
 		const option_w = document.createElement('option')
 		const option_e = document.createElement('option')
@@ -65,9 +61,8 @@ export class GuiHandler {
 		let child = document.querySelector(`[data-row_id="${id}"]`)
 		child.remove()
 	}
-	_noTask() {
-		const task_length = tbl.querySelectorAll('tr').length
-		return task_length === 0
+	_noTask(tasks) {
+		return tasks.length === 0
 	}
 	_deleteTaskCallback(response) { }
 
