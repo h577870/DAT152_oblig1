@@ -1,6 +1,8 @@
 "use strict"
 
-// GUIhandler klassen
+// Chris intro av GuiHandler klassen
+// V2.0 heihei
+
 export class GuiHandler {
 
 	/*
