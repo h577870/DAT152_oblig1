@@ -1,7 +1,6 @@
 "use strict"
 
-// Chris intro av GuiHandler klassen
-// V2.0 heihei
+import { deleteTask_ajax } from "./Fetch_stuff.js"
 
 export class GuiHandler {
 
@@ -61,7 +60,6 @@ export class GuiHandler {
 	_update(task, text) {
 		let status = document.querySelector(`[data-row_id="${task}"]`)
 		status.children[1].textContent = text
-
 	}
 	_removeTask(id) {
 		let child = document.querySelector(`[data-row_id="${id}"]`)
