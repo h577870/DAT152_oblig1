@@ -44,11 +44,12 @@ export class GuiHandler {
 			if (confirmation) {
 				const result = this._deleteTaskCallback(task)
 				if (result) {
+					console.info(`Task with id ${task._id} was successfully removed from server...`)
 					this._removeTask(task._id)
 				}
 			}
 			else {
-				console.log(`Task with id ${task._id} was not removed.`)
+				console.info(`Task with id ${task._id} was not removed.`)
 			}
 		})
 		selector.addEventListener('change', async () => {

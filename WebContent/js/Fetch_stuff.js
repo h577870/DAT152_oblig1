@@ -8,7 +8,6 @@ export async function getTasks_ajax() {
     try {
         const response = await fetch(url, { method: 'GET' })
         const data = await response.json()
-        console.log(data)
         data.tasks.forEach(task => {
             //javascript vet ikke før kjøretid at dette <KAN> være ett array, men det virker så lenge man vet selv
             //Endret slik at denne returnerer array av tasks, ettersom guiHandler ikke skal ha kobling med fetch-metoder.
@@ -33,7 +32,6 @@ export async function deleteTask_ajax(task) {
             }
         )
         const data = await response.json()
-        console.log(data)
         return data
     }
     catch (e) {
