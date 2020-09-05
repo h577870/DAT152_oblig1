@@ -1,7 +1,7 @@
 "use strict"
 
 import { GuiHandler } from './GuiHandler.js'
-import { getTasks } from './Fetch_stuff.js'
+import { getTasks_ajax } from './Fetch_stuff.js'
 
 let tasks = []
 const statuses = [
@@ -19,7 +19,7 @@ const gui = new GuiHandler(container)
 gui._allstatuses = statuses
 
 async function putArray() {
-    tasks = await getTasks()
+    tasks = await getTasks_ajax()
     if (gui._noTask(tasks)) {
         console.info('Task list is empty...')
     }

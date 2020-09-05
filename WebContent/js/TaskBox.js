@@ -1,7 +1,7 @@
 "use strict"
 
-import {GuiHandler} from './GuiHandler.js'
-import {Task} from './Task.js'
+import { GuiHandler } from './GuiHandler.js'
+import { Task } from './Task.js'
 
 // Henter modal
 const modal = document.querySelector(`[data-modalID="myModal"]`)
@@ -18,18 +18,18 @@ const status = document.querySelector(`[data-statusID ="status"]`)
 const submit = document.querySelector(`[data-submitID ="submit"]`)
 
 // Opner modalen når man trykker på knappen
-button.addEventListener('click', async() => {
-    modal.style.display = "block" 
+button.addEventListener('click', async () => {
+    modal.style.display = "block"
 })
 
 //Lukker modalen når man trykker på (x)
-span.addEventListener('click', async() => {
+span.addEventListener('click', async () => {
     modal.style.display = "none"
 })
 
 // Når man trykker utenfor modalen, lukker vinduet seg
-window.addEventListener('click', async(event) => {
-    if (event.target == modal){
+window.addEventListener('click', async (event) => {
+    if (event.target == modal) {
         modal.style.display = "none"
     }
 })
@@ -53,7 +53,7 @@ let FormTask = {
 const gui = new GuiHandler()
 
 
-submit.addEventListener('click', async(e) => {
+submit.addEventListener('click', async (e) => {
     e.preventDefault()
     const task = new Task(6, FormTask.title, FormTask.status.toLocaleUpperCase())
     gui._showTask(task)

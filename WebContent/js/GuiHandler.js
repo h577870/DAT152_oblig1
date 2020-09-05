@@ -1,5 +1,7 @@
 "use strict"
 
+import { deleteTask_ajax } from "./Fetch_stuff.js"
+
 export class GuiHandler {
 
 	/*
@@ -40,14 +42,15 @@ export class GuiHandler {
 		button.addEventListener('click', async () => {
 			let confirmation = window.confirm("Er du sikker på at du vil fjerne denne?")
 			if (confirmation) {
-				this._removeTask(row.dataset.row_id)
-				console.log(`Task with id ${row.dataset.row_id} was removed from the task table.`)
+				const result = this._deleteTaskCallback(task)
+				if (result) {
+					this._removeTask(task._id)
+				}
 			}
 			else {
-				console.log(`Task with id ${row.dataset.row_id} was not removed.`)
+				console.log(`Task with id ${task._id} was not removed.`)
 			}
 		})
-
 		selector.addEventListener('change', async () => {
 			let selectorOption = selector.options[selector.selectedIndex].text
 			this._update(row.dataset.row_id, selectorOption)
@@ -64,6 +67,9 @@ export class GuiHandler {
 	_noTask(tasks) {
 		return tasks.length === 0
 	}
-	_deleteTaskCallback(response) { }
+	async _deleteTaskCallback(task) {
+		const data = await deleteTask_ajax(task)
+		return data.responseStatus
+	}
 
 }
