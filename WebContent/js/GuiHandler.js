@@ -1,12 +1,9 @@
 "use strict"
 
-import { deleteTask_ajax } from "./Fetch_stuff.js"
+import { deleteTask_ajax, updateTask_ajax } from "./Fetch_stuff.js"
 
 export class GuiHandler {
 
-	/*
-	* Properties 'allStatuses', 'deleteTaskCallback' og 'newStatusCallback'
-	*/
 	constructor(container) {
 		this._allstatuses = []
 		this._container = container
@@ -14,16 +11,7 @@ export class GuiHandler {
 
 	_showTask(task) {
 		const tbl = this._container.getElementsByTagName('table')[0]
-		const selector = document.createElement('select')
-		const option_w = document.createElement('option')
-		const option_e = document.createElement('option')
-		const option_q = document.createElement('option')
-		option_e.text = "bye"
-		option_q.text = "nei"
-		option_w.text = "hello"
-		selector.add(option_w)
-		selector.add(option_e)
-		selector.add(option_q)
+		const selector = this._createSelector()
 		const button = document.createElement('button')
 		button.textContent = "REMOVE"
 
@@ -40,37 +28,73 @@ export class GuiHandler {
 		td4.appendChild(button)
 
 		button.addEventListener('click', async () => {
-			let confirmation = window.confirm("Er du sikker på at du vil fjerne denne?")
-			if (confirmation) {
-				const result = this._deleteTaskCallback(task)
-				if (result) {
-					console.info(`Task with id ${task._id} was successfully removed from server...`)
-					this._removeTask(task._id)
-				}
+			let confirmation_delete = window.confirm("Er du sikker på at du vil fjerne denne?")
+			if (confirmation_delete) {
+				this._deleteTaskCallback(task)
 			}
 			else {
 				console.info(`Task with id ${task._id} was not removed.`)
 			}
 		})
 		selector.addEventListener('change', async () => {
-			let selectorOption = selector.options[selector.selectedIndex].text
-			this._update(row.dataset.row_id, selectorOption)
+			let confirmation_update = window.confirm("Er du sikker på at du vil oppdatere statusen?")
+			if (confirmation_update) {
+				let selectorOption = selector.options[selector.selectedIndex].text
+				this._newStatusCallback(task._id, selectorOption)
+			} else {
+				console.info(`Status on task ${task._id} was not updated in view...`)
+			}
 		})
 	}
-	_update(task, text) {
-		let status = document.querySelector(`[data-row_id="${task}"]`)
-		status.children[1].textContent = text
+	_update(task_id, newStatus) {
+		let status = document.querySelector(`[data-row_id="${task_id}"]`)
+		console.info(`Task with id ${task_id} was successfully updated in view...`)
+		status.children[1].textContent = newStatus
 	}
 	_removeTask(id) {
 		let child = document.querySelector(`[data-row_id="${id}"]`)
+		console.info(`Task with id ${id} was successfully removed from view...`)
 		child.remove()
 	}
 	_noTask(tasks) {
 		return tasks.length === 0
 	}
 	async _deleteTaskCallback(task) {
+		//TODO: Skal egentlig sende task-id i parameter, må endres.
 		const data = await deleteTask_ajax(task)
-		return data.responseStatus
+		if (data.responseStatus) {
+			console.info(`Task with id ${task._id} was successfully removed from server...`)
+			this._removeTask(task._id)
+		}
+	}
+
+	async _newStatusCallback(task_id, newStatus) {
+		const data = await updateTask_ajax(`{ "id": "${task_id}", "status": "${newStatus}" }`, task_id)
+		if (data.responseStatus) { //Sjekke denne
+			console.info(`Task with id ${task._id} was successfully updated on server...`)
+			this._update(task_id, newStatus)
+		}
+	}
+
+	_createSelector() {
+		const selector = document.createElement('select')
+		const option_w = document.createElement('option')
+		const option_e = document.createElement('option')
+		const option_q = document.createElement('option')
+
+		const starter_option = document.createElement('option')
+		starter_option.text = '<Modify>'
+		starter_option.selected = true
+		starter_option.hidden = true
+
+		option_e.text = this._allstatuses[0]
+		option_q.text = this._allstatuses[1]
+		option_w.text = this._allstatuses[2]
+		selector.add(starter_option)
+		selector.add(option_w)
+		selector.add(option_e)
+		selector.add(option_q)
+		return selector
 	}
 
 }

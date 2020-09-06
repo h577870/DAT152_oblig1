@@ -1,22 +1,20 @@
 "use strict"
 
 import { GuiHandler } from './GuiHandler.js'
-import { getTasks_ajax } from './Fetch_stuff.js'
+import { getTasks_ajax, getStatuses_ajax } from './Fetch_stuff.js'
 
 let tasks = []
-const statuses = [
-    'ACTIVE',
-    'WAITING',
-    'DONE'
-]
+let statuses = []
 document.addEventListener('DOMContentLoaded', init, true)
 
 function init() {
     return document.getElementsByClassName('taskcontainer')[0]
 }
-const container = init()
-const gui = new GuiHandler(container)
-gui._allstatuses = statuses
+
+async function putStatuses() {
+    statuses = await getStatuses_ajax()
+    gui._allstatuses = statuses
+}
 
 async function putArray() {
     tasks = await getTasks_ajax()
@@ -30,4 +28,7 @@ async function putArray() {
     }
 }
 // --- //
+const container = init()
+const gui = new GuiHandler(container)
+putStatuses()
 putArray()
