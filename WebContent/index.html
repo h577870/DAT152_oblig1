@@ -5,29 +5,30 @@
 	<meta charset="ISO-8859-1">
 	<title>Task manager</title>
 	<script type="module" src="js/main.js" defer></script>
-	<script type="module" src ="js/TaskBox.js" defer></script>
+	<script type="module" src="js/TaskBox.js" defer></script>
 	<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 	<div class="taskcontainer">
 		<h1>Task manager</h1>
+		<p class="paragraphcontainer"></p>
 		<button data-buttonID="newTask">New task</button>
 
-		<div data-modalID="myModal" class ="modal">
-			<div class ="modal-content">
-				<span class ="close"> &times;</span>
-				<form data-formID ="form">
-					<label for ="title">Title:</label>
-					<input type ="text" data-titleID ="title"><br>
-					<label for ="status">Status: </label>
-					<select name = "status" data-statusID = "status">
-						<option value ="active" selected>ACTIVE</option>
-						<option value ="waiting">WAITING</option>
-						<option value ="done"> DONE</option>
+		<div data-modalID="myModal" class="modal">
+			<div class="modal-content">
+				<span class="close"> &times;</span>
+				<form data-formID="form">
+					<label for="title">Title:</label>
+					<input type="text" data-titleID="title"><br>
+					<label for="status">Status: </label>
+					<select name="status" data-statusID="status">
+						<option value="active" selected>ACTIVE</option>
+						<option value="waiting">WAITING</option>
+						<option value="done"> DONE</option>
 					</select>
 					<p>___________________________________</p>
-					<button type ="submit" data-submitID="submit" form ="form1" value = "submit">Add task</button>
+					<button type="submit" data-submitID="submit" form="form1" value="submit">Add task</button>
 				</form>
 			</div>
 		</div>

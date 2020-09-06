@@ -5,9 +5,9 @@ import { getTasks_ajax, getStatuses_ajax } from './Fetch_stuff.js'
 
 let tasks = []
 let statuses = []
-document.addEventListener('DOMContentLoaded', init, true)
+document.addEventListener('DOMContentLoaded', initContainer, true)
 
-function init() {
+function initContainer() {
     return document.getElementsByClassName('taskcontainer')[0]
 }
 
@@ -25,10 +25,11 @@ async function putArray() {
         tasks.forEach(element => {
             gui._showTask(element)
         })
+        gui._createParagraph(gui._container.getElementsByTagName('table')[0].rows.length - 1)
     }
 }
 // --- //
-const container = init()
+const container = initContainer()
 const gui = new GuiHandler(container)
 putStatuses()
 putArray()

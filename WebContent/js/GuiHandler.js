@@ -31,6 +31,7 @@ export class GuiHandler {
 			let confirmation_delete = window.confirm("Er du sikker på at du vil fjerne denne?")
 			if (confirmation_delete) {
 				this._deleteTaskCallback(task)
+				this._updateParagraph(this._container.getElementsByTagName('table')[0].rows.length - 2)
 			}
 			else {
 				console.info(`Task with id ${task._id} was not removed.`)
@@ -74,6 +75,20 @@ export class GuiHandler {
 			console.info(`Task with id ${task._id} was successfully updated on server...`)
 			this._update(task_id, newStatus)
 		}
+	}
+	//Lager paragraf ved lasting. Mulig å slå sammen til én metode?
+	_createParagraph(table_length) {
+		const paragraph_class = this._container.getElementsByClassName('paragraphcontainer')[0]
+		const paragraph = document.createElement('p')
+		paragraph.textContent = `Found ${table_length} tasks...`
+		paragraph_class.appendChild(paragraph)
+	}
+
+	//Oppdaterer eksisterende paragraf.
+	_updateParagraph(table_length) {
+		const paragraph_class = this._container.getElementsByClassName('paragraphcontainer')[0]
+		const paragraph = paragraph_class.getElementsByTagName('p')[0]
+		paragraph.textContent = `Found ${table_length} tasks...`
 	}
 
 	_createSelector() {
