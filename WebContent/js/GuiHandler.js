@@ -1,12 +1,20 @@
 "use strict"
 
-import { deleteTask_ajax, updateTask_ajax } from "./fetch.js"
-
 export class GuiHandler {
 
-	constructor(container) {
+	constructor() {
 		this._allstatuses = []
-		this._container = container
+		this._tasks = []
+	}
+
+	set allstatuses(newstatuses) {
+		this._allstatuses = newstatuses
+	}
+	set tasks(tasks) {
+		this._tasks = tasks
+	}
+	set container(taskcontainer) {
+		this._container = taskcontainer
 	}
 
 	_showTask(task) {
@@ -57,11 +65,11 @@ export class GuiHandler {
 		console.info(`Task with id ${id} was successfully removed from view...`)
 		child.remove()
 	}
-	_noTask(tasks) {
-		return tasks.length === 0
+	_noTask() {
+		return this._tasks.length === 0
 	}
 	async _deleteTaskCallback(task) {
-		//TODO: Skal egentlig sende task-id i parameter, må endres.
+
 		const data = await deleteTask_ajax(task)
 		if (data.responseStatus) {
 			console.info(`Task with id ${task._id} was successfully removed from server...`)
@@ -70,7 +78,7 @@ export class GuiHandler {
 	}
 
 	async _newStatusCallback(task_id, newStatus) {
-		const data = await updateTask_ajax(newStatus, task_id)
+		const data = await updateTask_ajax(taske_id, newStatus)
 		if (data.responseStatus) { //Sjekke denne
 			console.info(`Task with id ${task_id} was successfully updated on server...`)
 			this._update(task_id, newStatus)
