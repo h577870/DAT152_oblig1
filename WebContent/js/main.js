@@ -1,7 +1,7 @@
 "use strict"
 
 import { GuiHandler } from './GuiHandler.js'
-import { getTasks_ajax, getStatuses_ajax } from './fetch.js'
+import { deleteTask_ajax, getStatuses_ajax, getTasks_ajax } from './fetch.js'
 
 let tasks = []
 let statuses = []
@@ -31,5 +31,24 @@ async function putArray() {
 // --- //
 const container = initContainer()
 const gui = new GuiHandler(container)
+
 putStatuses()
 putArray()
+
+gui.ondeleteCallback = async (task) => {
+
+    let confirmation_delete = window.confirm("Er du sikker på at du vil fjerne denne?")
+			if (confirmation_delete) {
+                
+                const data = await deleteTask_ajax(task)
+                if (data.responseStatus) {
+                    console.info(`Task with id ${task._id} was successfully removed from server...`)
+                    gui._removeTask(task._id)
+                }
+
+				gui._updateParagraph(gui._container.getElementsByTagName('table')[0].rows.length - 2)
+			}
+			else {
+				console.info(`Task with id ${task._id} was not removed.`)
+			}
+}
