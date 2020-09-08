@@ -14,28 +14,26 @@ async function init() {
         console.info('Task list is empty...')
     }
     else {
-        gui.tasks.forEach(element => {
+        gui._tasks.forEach(element => {
             gui._showTask(element)
         })
         gui._createParagraph(gui._container.getElementsByTagName('table')[0].rows.length - 1)
     }
 }
-gui.ondeleteCallback = async (task) => {
 
-    let confirmation_delete = window.confirm("Er du sikker på at du vil fjerne denne?")
-    if (confirmation_delete) {
-
-        const data = await deleteTask_ajax(task)
-        if (data.responseStatus) {
-            console.info(`Task with id ${task._id} was successfully removed from server...`)
-            gui._removeTask(task._id)
+//id = [object MouseEvent] :P
+//Funker hvis jeg legger inn id manuelt
+gui.deleteTaskCallback = async (id) => {
+    try {
+        const response = await taskservice.deleteTask_ajax(2)
+        console.log(response)
+        if (true) {
+            console.info(`Removed task with id ${id}`)
+            gui._removeTask(2)
+            gui._updateParagraph(gui._container.getElementsByTagName('table')[0].rows.length - 1)
         }
+    } catch (e) { console.warn(e.message) }
 
-        gui._updateParagraph(gui._container.getElementsByTagName('table')[0].rows.length - 2)
-    }
-    else {
-        console.info(`Task with id ${task._id} was not removed.`)
-    }
 }
 
 init()

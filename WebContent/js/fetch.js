@@ -32,16 +32,16 @@ export class TaskService {
         return task_array
     }
 
-    async deleteTask_ajax(task) {
+    async deleteTask_ajax(id) {
         try {
-            const url = `../TaskServices/broker/task/${task._id}`
+            const url = `../TaskServices/broker/task/${id}`
             const response = await fetch(url,
                 {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json; charset=utf-8'
                     },
-                    body: JSON.stringify(task)
+                    body: JSON.stringify(id)
                 }
             )
             const data = await response.json()
