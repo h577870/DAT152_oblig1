@@ -1,7 +1,7 @@
 "use strict"
 
 import { GuiHandler } from './GuiHandler.js'
-import { getTasks_ajax, getStatuses_ajax } from './Fetch_stuff.js'
+import { getTasks_ajax, getStatuses_ajax } from './fetch.js'
 
 let tasks = []
 let statuses = []

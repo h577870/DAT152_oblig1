@@ -1,6 +1,6 @@
 "use strict"
 
-import { deleteTask_ajax, updateTask_ajax } from "./Fetch_stuff.js"
+import { deleteTask_ajax, updateTask_ajax } from "./fetch.js"
 
 export class GuiHandler {
 
@@ -70,9 +70,9 @@ export class GuiHandler {
 	}
 
 	async _newStatusCallback(task_id, newStatus) {
-		const data = await updateTask_ajax(`{ "id": "${task_id}", "status": "${newStatus}" }`, task_id)
+		const data = await updateTask_ajax(newStatus, task_id)
 		if (data.responseStatus) { //Sjekke denne
-			console.info(`Task with id ${task._id} was successfully updated on server...`)
+			console.info(`Task with id ${task_id} was successfully updated on server...`)
 			this._update(task_id, newStatus)
 		}
 	}

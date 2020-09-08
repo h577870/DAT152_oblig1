@@ -50,10 +50,7 @@ export async function deleteTask_ajax(task) {
     }
 }
 
-/*
-Server error 500.
-*/
-export async function updateTask_ajax(json_obj, task_id) {
+export async function updateTask_ajax(task_id, newstatus) {
     try {
         const url = `../TaskServices/broker/task/${task_id}`
         const response = await fetch(url, {
@@ -61,11 +58,34 @@ export async function updateTask_ajax(json_obj, task_id) {
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             },
-            body: JSON.stringify(json_obj) //Er allerede en json-string, trengs da stringify()?
+            body: JSON.stringify({
+                status: newstatus
+            })
         })
         const data = await response.json()
         return data
     } catch (e) {
         console.warn(e.message)
+    }
+}
+
+export async function addTask_ajax(task) {
+    try {
+        const url = '../TaskServices/broker/task'
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify({
+                title: task._title,
+                status: task._status
+            })
+        })
+        const data = await response.json()
+        console.log(data)
+        return data
+    } catch (e) {
+        console.log(e.message)
     }
 }
