@@ -1,62 +1,45 @@
 "use strict"
 
-import { GuiHandler } from './GuiHandler.js'
 import { Task } from './Task.js'
 
-// Henter modal
-const modal = document.querySelector(`[data-modalID="myModal"]`)
-// Henter kanppen som opner modal
-const button = document.querySelector(`[data-buttonID="newTask"]`)
-// Henter span elementet som lukker modalen
-const span = document.getElementsByClassName("close")[0]
+export class TaskBox {
+	
+	constructor() {
 
-const title = document.querySelector(`[data-titleID = "title"]`)
-const status = document.querySelector(`[data-statusID ="status"]`)
+        this._modalSpan = document.getElementsByClassName('close')[0]
+        this._modalSpan.addEventListener('click', () => {
+            this.close()
+        }, true)
+        this._addButton = document.querySelector(`[data-submitID="submit"]`)
+        this._addButton.addEventListener('click', () => {
+            this.submit()
+        }, true)
 
+        this._onsubmit = () => { console.log("haha") }
 
-//Henter submitknappen
-const submit = document.querySelector(`[data-submitID ="submit"]`)
-
-// Opner modalen når man trykker på knappen
-button.addEventListener('click', async () => {
-    modal.style.display = "block"
-})
-
-//Lukker modalen når man trykker på (x)
-span.addEventListener('click', async () => {
-    modal.style.display = "none"
-})
-
-// Når man trykker utenfor modalen, lukker vinduet seg
-window.addEventListener('click', async (event) => {
-    if (event.target == modal) {
+	}
+	
+	show() {
+        let modal = document.querySelector(`[data-modalID="myModal"]`)
+		modal.style.display = 'block'
+	}
+	
+	close() {
+        let modal = document.querySelector(`[data-modalID="myModal"]`)
         modal.style.display = "none"
     }
-})
 
-title.addEventListener("change", (e) => {
-    FormTask.title = e.target.value
+    set onsubmit(onsubmitFunction) {
+        this._onsubmit = onsubmitFunction
+    }
 
-})
+    submit() {
+        let title = document.querySelector(`[data-titleID="title"]`).value
+        let status = document.querySelector(`[data-statusID="status"]`).value
 
-status.addEventListener("change", (e) => {
-    FormTask.status = e.target.value
-})
+        this._onsubmit(new Task(666, title, status))
+    }
+    
 
-//Legge til task i tabellen (ikke ferdig)
-
-let FormTask = {
-    title: "",
-    status: status.value || ""
+	
 }
-
-const gui = new GuiHandler()
-
-
-submit.addEventListener('click', async (e) => {
-    e.preventDefault()
-    const task = new Task(6, FormTask.title, FormTask.status.toLocaleUpperCase())
-    gui._showTask(task)
-})
-
-// Hei hilsen Chris
