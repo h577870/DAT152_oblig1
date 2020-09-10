@@ -1,12 +1,34 @@
 "use strict"
 
-import { deleteTask_ajax, updateTask_ajax } from "./fetch.js"
-
 export class GuiHandler {
 
-	constructor(container) {
+	//let selectorOption = selector.options[selector.selectedIndex].text
+
+	constructor() {
 		this._allstatuses = []
-		this._container = container
+		this._tasks = []
+	}
+
+	set allstatuses(newstatuses) {
+		this._allstatuses = newstatuses
+	}
+	set tasks(tasks) {
+		this._tasks = tasks
+	}
+	set container(taskcontainer) {
+		this._container = taskcontainer
+	}
+	/**
+	 * @param {(id: any) => Promise<void>} callback
+	 */
+	set deleteTaskCallback(callback) {
+		this._deleteTaskCallback = callback
+	}
+	/**
+	 * @param {{ (arg0: any, arg1: any): void; (id: any, status: any): Promise<void>; }} callback
+	 */
+	set newStatusCallback(callback) {
+		this._newStatusCallback = callback
 	}
 
 	_showTask(task) {
@@ -27,25 +49,8 @@ export class GuiHandler {
 		td3.appendChild(selector)
 		td4.appendChild(button)
 
-		button.addEventListener('click', async () => {
-			let confirmation_delete = window.confirm("Er du sikker på at du vil fjerne denne?")
-			if (confirmation_delete) {
-				this._deleteTaskCallback(task)
-				this._updateParagraph(this._container.getElementsByTagName('table')[0].rows.length - 2)
-			}
-			else {
-				console.info(`Task with id ${task._id} was not removed.`)
-			}
-		})
-		selector.addEventListener('change', async () => {
-			let confirmation_update = window.confirm("Er du sikker på at du vil oppdatere statusen?")
-			if (confirmation_update) {
-				let selectorOption = selector.options[selector.selectedIndex].text
-				this._newStatusCallback(task._id, selectorOption)
-			} else {
-				console.info(`Status on task ${task._id} was not updated in view...`)
-			}
-		})
+		button.addEventListener('click', this.deleteClick)
+		selector.addEventListener('change', this.updateChange)
 	}
 	_update(task_id, newStatus) {
 		let status = document.querySelector(`[data-row_id="${task_id}"]`)
@@ -57,24 +62,8 @@ export class GuiHandler {
 		console.info(`Task with id ${id} was successfully removed from view...`)
 		child.remove()
 	}
-	_noTask(tasks) {
-		return tasks.length === 0
-	}
-	async _deleteTaskCallback(task) {
-		//TODO: Skal egentlig sende task-id i parameter, må endres.
-		const data = await deleteTask_ajax(task)
-		if (data.responseStatus) {
-			console.info(`Task with id ${task._id} was successfully removed from server...`)
-			this._removeTask(task._id)
-		}
-	}
-
-	async _newStatusCallback(task_id, newStatus) {
-		const data = await updateTask_ajax(newStatus, task_id)
-		if (data.responseStatus) { //Sjekke denne
-			console.info(`Task with id ${task_id} was successfully updated on server...`)
-			this._update(task_id, newStatus)
-		}
+	_noTask() {
+		return this._tasks.length === 0
 	}
 	//Lager paragraf ved lasting. Mulig å slå sammen til én metode?
 	_createParagraph(table_length) {
@@ -110,6 +99,25 @@ export class GuiHandler {
 		selector.add(option_e)
 		selector.add(option_q)
 		return selector
+	}
+
+	deleteClick = (id) => {
+		let confirmation_delete = window.confirm("Er du sikker på at du vil fjerne denne?")
+		if (confirmation_delete) {
+			this._deleteTaskCallback(id)
+		}
+		else {
+			console.info(`Task with id ${id} was not removed.`)
+		}
+	}
+
+	updateChange = (id, status) => {
+		let confirmation_update = window.confirm("Er du sikker på at du vil oppdatere statusen?")
+		if (confirmation_update) {
+			this._newStatusCallback(id, status)
+		} else {
+			console.info(`Status on task ${id} was not updated in view...`)
+		}
 	}
 
 }
