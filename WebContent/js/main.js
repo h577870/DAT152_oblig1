@@ -25,15 +25,25 @@ async function init() {
 //Funker hvis jeg legger inn id manuelt
 gui.deleteTaskCallback = async (id) => {
     try {
-        const response = await taskservice.deleteTask_ajax(2)
+        const response = await taskservice.deleteTask_ajax(id)
         console.log(response)
-        if (true) {
+        if (response.responseStatus) {
             console.info(`Removed task with id ${id}`)
-            gui._removeTask(2)
+            gui._removeTask(id)
             gui._updateParagraph(gui._container.getElementsByTagName('table')[0].rows.length - 1)
         }
     } catch (e) { console.warn(e.message) }
 
+}
+
+gui.newStatusCallback = async (id, status) => {
+    try {
+        const response = await taskservice.updateTask_ajax(id, status)
+        if (response.responseStatus) {
+            console.info(`Updated task with id ${id} to the new status: ${status}`)
+            gui._update(id, status)
+        }
+    } catch (e) { console.warn(e.message) }
 }
 
 init()

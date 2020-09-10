@@ -18,9 +18,15 @@ export class GuiHandler {
 	set container(taskcontainer) {
 		this._container = taskcontainer
 	}
+	/**
+	 * @param {(id: any) => Promise<void>} callback
+	 */
 	set deleteTaskCallback(callback) {
 		this._deleteTaskCallback = callback
 	}
+	/**
+	 * @param {{ (arg0: any, arg1: any): void; (id: any, status: any): Promise<void>; }} callback
+	 */
 	set newStatusCallback(callback) {
 		this._newStatusCallback = callback
 	}
