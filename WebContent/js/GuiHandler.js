@@ -2,8 +2,6 @@
 
 export class GuiHandler {
 
-	//let selectorOption = selector.options[selector.selectedIndex].text
-
 	constructor() {
 		this._allstatuses = []
 		this._tasks = []
@@ -33,7 +31,7 @@ export class GuiHandler {
 
 	_showTask(task) {
 		const tbl = this._container.getElementsByTagName('table')[0]
-		const selector = this._createSelector()
+		const selector = this._createSelector(task)
 		const button = document.createElement('button')
 		button.textContent = "REMOVE"
 
@@ -48,6 +46,8 @@ export class GuiHandler {
 		td2.appendChild(document.createTextNode(task._status))
 		td3.appendChild(selector)
 		td4.appendChild(button)
+
+		//selectorOption = selector.options[selector.selectedIndex].text
 
 		button.addEventListener('click', this.deleteClick)
 		selector.addEventListener('change', this.updateChange)
@@ -80,7 +80,7 @@ export class GuiHandler {
 		paragraph.textContent = `Found ${table_length} tasks...`
 	}
 
-	_createSelector() {
+	_createSelector(task) {
 		const selector = document.createElement('select')
 		const option_w = document.createElement('option')
 		const option_e = document.createElement('option')
@@ -98,6 +98,13 @@ export class GuiHandler {
 		selector.add(option_w)
 		selector.add(option_e)
 		selector.add(option_q)
+		let option_array = selector.getElementsByTagName('option')
+		let inputlist = Array.prototype.slice.call(option_array)
+		inputlist.forEach(a => {
+			if (task._status === a.text) {
+				a.disabled = true
+			}
+		})
 		return selector
 	}
 
