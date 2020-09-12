@@ -79,10 +79,7 @@ export class TaskService {
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 },
-                body: JSON.stringify({
-                    title: task._title,
-                    status: task._status
-                })
+                body: JSON.stringify(task)
             })
             const data = await response.json()
             console.log(data)

@@ -2,11 +2,18 @@
 
 import { GuiHandler } from './GuiHandler.js'
 import { TaskService } from './fetch.js'
+import { TaskBox } from './TaskBox.js' 
 
 let gui = new GuiHandler()
 let taskservice = new TaskService()
+let taskbox = new TaskBox()
+let addButton
 
 async function init() {
+	addButton = document.querySelector(`[data-buttonID="newTask"]`)
+	addButton.addEventListener('click', () => {
+		taskbox.show()
+	})
     gui.container = document.getElementsByClassName('taskcontainer')[0]
     gui.allstatuses = await taskservice.getStatuses_ajax()
     gui.tasks = await taskservice.getTasks_ajax()
@@ -21,9 +28,30 @@ async function init() {
     }
 }
 
+taskbox._onsubmit = async (task) => {
+		
+	let newTask = {
+		title: task._title,
+		status: task._status.toUpperCase()
+	}
+	console.log(newTask)
+	try {
+		
+		const response = await taskservice.addTask_ajax(newTask)
+		if (response.responseStatus) {
+			console.info(`new task added with ${response.id}]`)
+		}
+		
+	}catch(e) {
+		console.warn(e.message)
+	}
+
+}
+
 //id = [object MouseEvent] :P
 //Funker hvis jeg legger inn id manuelt
 gui.deleteTaskCallback = async (id) => {
+	
     try {
         const response = await taskservice.deleteTask_ajax(id)
         console.log(response)
