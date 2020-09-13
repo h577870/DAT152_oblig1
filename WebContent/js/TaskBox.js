@@ -3,9 +3,9 @@
 import { Task } from './Task.js'
 
 export class TaskBox {
-	
-	constructor() {
-		
+
+    constructor() {
+
         this._modalSpan = document.getElementsByClassName('close')[0]
         this._modalSpan.addEventListener('click', () => {
             this.close()
@@ -14,17 +14,17 @@ export class TaskBox {
         this._addButton.addEventListener('click', () => {
             this.submit()
         }, true)
-		
+
         this._onsubmit = () => { console.log("haha") }
-		
-	}
-	
-	show() {
+
+    }
+
+    show() {
         let modal = document.querySelector(`[data-modalID="myModal"]`)
-		modal.style.display = 'block'
-	}
-	
-	close() {
+        modal.style.display = 'block'
+    }
+
+    close() {
         let modal = document.querySelector(`[data-modalID="myModal"]`)
         modal.style.display = "none"
     }
@@ -36,13 +36,10 @@ export class TaskBox {
     submit() {
         let title = document.querySelector(`[data-titleID="title"]`).value
         let status = document.querySelector(`[data-statusID="status"]`).value
-		
-		console.log(title)
-		console.log(status)
-		
+
         this._onsubmit(new Task(0, title, status.toUpperCase()))
     }
-    
 
-	
+
+
 }

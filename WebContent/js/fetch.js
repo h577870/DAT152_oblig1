@@ -82,7 +82,6 @@ export class TaskService {
                 body: JSON.stringify(task)
             })
             const data = await response.json()
-            console.log(data)
             return data
         } catch (e) {
             console.log(e.message)

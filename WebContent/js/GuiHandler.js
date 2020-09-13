@@ -20,7 +20,7 @@ export class GuiHandler {
 	 * @param {(id: any) => Promise<void>} callback
 	 */
 	set deleteTaskCallback(callback) {
-		this._deleteTaskCallback = callback
+		this._deleteTaskCallback = callback.bind(this)
 	}
 	/**
 	 * @param {{ (arg0: any, arg1: any): void; (id: any, status: any): Promise<void>; }} callback
@@ -47,10 +47,13 @@ export class GuiHandler {
 		td3.appendChild(selector)
 		td4.appendChild(button)
 
-		//selectorOption = selector.options[selector.selectedIndex].text
-
-		button.addEventListener('click', this.deleteClick)
-		selector.addEventListener('change', this.updateChange)
+		button.addEventListener('click', () => {
+			this.deleteClick(task._id)
+		})
+		selector.addEventListener('change', () => {
+			let selectorOption = selector.options[selector.selectedIndex].text
+			this.updateChange(task._id, selectorOption)
+		})
 	}
 	_update(task_id, newStatus) {
 		let status = document.querySelector(`[data-row_id="${task_id}"]`)
